@@ -18,7 +18,7 @@ describe("ETHDaddy", () => {
 
     // Deploy contract
     const ETHDaddy = await ethers.getContractFactory('ETHDaddy')
-    ethDaddy = await ETHDaddy.deploy("ETH Daddy", "ETHD")
+    ethDaddy = await ETHDaddy.deploy(NAME, SYMBOL)
 
     // List a domain
     const transaction = await ethDaddy.connect(deployer).list("jack.eth", tokens(10))
@@ -26,12 +26,12 @@ describe("ETHDaddy", () => {
   })
 
   describe('Deployment', () => {
-    it('has a name', async () => {
+    it('Sets the name', async () => {
       const result = await ethDaddy.name()
       expect(result).to.equal(NAME)
     })
 
-    it('has a symbol', async () => {
+    it('Sets the symbol', async () => {
       const result = await ethDaddy.symbol()
       expect(result).to.equal(SYMBOL)
     })
@@ -53,12 +53,12 @@ describe("ETHDaddy", () => {
   })
 
   describe("Domain", () => {
-    it('Returns domain attriburtes', async () => {
-      let domain = await ethDaddy.getDomain(1)
+    it('Returns domain attributes', async () => {
+      const domain = await ethDaddy.getDomain(1)
       expect(domain.name).to.be.equal("jack.eth")
       expect(domain.cost).to.be.equal(tokens(10))
       expect(domain.isOwned).to.be.equal(false)
-    });
+    })
   })
 
   describe("Minting", () => {
@@ -73,17 +73,17 @@ describe("ETHDaddy", () => {
     it('Updates the owner', async () => {
       const owner = await ethDaddy.ownerOf(ID)
       expect(owner).to.be.equal(owner1.address)
-    });
+    })
 
     it('Updates the domain status', async () => {
       const domain = await ethDaddy.getDomain(ID)
       expect(domain.isOwned).to.be.equal(true)
-    });
+    })
 
     it('Updates the contract balance', async () => {
       const result = await ethDaddy.getBalance()
       expect(result).to.be.equal(AMOUNT)
-    });
+    })
   })
 
   describe("Withdrawing", () => {
@@ -94,7 +94,7 @@ describe("ETHDaddy", () => {
     beforeEach(async () => {
       balanceBefore = await ethers.provider.getBalance(deployer.address)
 
-      let transaction = await ethDaddy.connect(owner1).mint(ID, { value: AMOUNT})
+      let transaction = await ethDaddy.connect(owner1).mint(ID, { value: AMOUNT })
       await transaction.wait()
 
       transaction = await ethDaddy.connect(deployer).withdraw()

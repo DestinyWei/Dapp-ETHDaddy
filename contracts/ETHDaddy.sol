@@ -27,9 +27,9 @@ contract ETHDaddy is ERC721 {
         owner = msg.sender;
     }
 
-    function list(string memory _name, uint256 _cost) public onlyOwner{
+    function list(string memory _name, uint256 _cost) public onlyOwner {
         maxSupply++;
-        domains[1] = Domain(_name, _cost, false);
+        domains[maxSupply] = Domain(_name, _cost, false);
     }
 
     function mint(uint256 _id) public payable {
@@ -49,11 +49,11 @@ contract ETHDaddy is ERC721 {
     }
 
     function getBalance() public view returns (uint256) {
-        return address (this).balance;
+        return address(this).balance;
     }
 
     function withdraw() public onlyOwner {
-        (bool sucess, ) = owner.call{value: address(this).balance}("");
-        require(sucess);
+        (bool success, ) = owner.call{value: address(this).balance}("");
+        require(success);
     }
 }
