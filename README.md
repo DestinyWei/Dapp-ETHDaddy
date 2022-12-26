@@ -29,3 +29,7 @@ In a separate terminal execute:
 
 ### 7. Start frontend
 `$ npm run start`
+
+### Attention
+When you want to retest the project, remember to reset your hardhat account.
+Please see https://medium.com/@thelasthash/solved-nonce-too-high-error-with-metamask-and-hardhat-adc66f092cd
